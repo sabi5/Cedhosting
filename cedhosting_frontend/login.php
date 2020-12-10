@@ -1,9 +1,18 @@
 <?php
 
 session_start();
-
 require "Dbconnection.php";
 require "User.php";
+
+require "Product.php";
+
+
+$Product = new Product();
+$Connection = new Dbconnection();
+
+$catList = $Product->categoryList($Connection->con);
+
+
 
 if(isset($_SESSION['user']['username']) && $_SESSION['user']['is_admin'] == 1){
     echo  "<script>location.replace('admin/admin.php');</script>";
@@ -64,21 +73,21 @@ if (isset($_POST['submit'])){
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hosting<i class="caret"></i></a>
 									<ul class="dropdown-menu">
-										<li><a href="linuxhosting.php">Linux hosting</a></li>
-										<li><a href="wordpresshosting.php">WordPress Hosting</a></li>
-										<li><a href="windowshosting.php">Windows Hosting</a></li>
-										<li><a href="cmshosting.php">CMS Hosting</a></li>
+									<? foreach ($catList as $value){
+											?>
+											<li><a href="linuxhosting.php"><?php echo $value['prod_name'];?></a></li>
+											<!-- <li><a href="wordpresshosting.php">WordPress Hosting</a></li>
+											<li><a href="windowshosting.php">Windows Hosting</a></li>
+											<li><a href="cmshosting.php">CMS Hosting</a></li> -->
+										<?}?>
 									</ul>			
 								</li>
 								<li><a href="pricing.php">Pricing</a></li>
 								<li><a href="blog.php">Blog</a></li>
 								<li><a href="contact.php">Contact</a></li>
+								<li><a href="account.php">Signup</a></li>
 								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<?php if (!isset($_SESSION['user'])){?>
-									<li><a href="logout.php">Logout</a></li>
-								<?}else{?>
-								<li class ="active"><a href="login.php">Login</a></li>
-								<?}?>
+								
 							</ul>
 									  
 						</div><!-- /.navbar-collapse -->

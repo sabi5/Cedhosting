@@ -5,6 +5,18 @@ session_start();
 require "Dbconnection.php";
 require "User.php";
 
+require "Product.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require '/home/cedcoss/vendor/autoload.php';
+
+
+$Product = new Product();
+$Connection = new Dbconnection();
+
+$catList = $Product->categoryList($Connection->con);
+
 if (isset($_POST['submit'])) {
     $username =  $_POST['username'];
     $email = $_POST['email'];
@@ -18,7 +30,81 @@ if (isset($_POST['submit'])) {
     $Connection = new Dbconnection();
 
     $sql = $User->signup($username, $email, $mobile, $question, $answer,  $password, $repassword, $Connection->con);
-    echo $sql;
+	// echo $sql;
+
+	$otp = rand(1000,9999);
+    $_SESSION['otp']=$otp;
+    $mail = new PHPMailer();
+    try {
+        $mail->isSMTP(true);
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'cedcossarjun1023@gmail.com';
+        $mail->Password = 'Cedcoss@1023';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+
+        $mail->setfrom('cedcossarjun1023@gmail.com', 'CedHosting');
+        $mail->addAddress($email);
+        $mail->addAddress($email, $username);
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Account Verification';
+        $mail->Body = 'Hi User,Here is your otp for account verification: '.$otp;
+        $mail->AltBody = 'Body in plain text for non-HTML mail clients';
+        $mail->send();
+        // header('location: verification.php?email=' . $email);
+    } catch (Exception $e) {
+        echo "Mailer Error: " . $mail->ErrorInfo;
+	}
+	
+
+	// mobile otp
+
+
+
+	$fields = array(
+		"sender_id" => "FSTSMS",
+		"message" => "Your OTP: " . $otp,
+		"language" => "english",
+		"route" => "p",
+		"numbers" => "$mobile",
+	);
+	
+	$curl = curl_init();
+	
+	curl_setopt_array($curl, array(
+	  CURLOPT_URL => "https://www.fast2sms.com/dev/bulk",
+	  CURLOPT_RETURNTRANSFER => true,
+	  CURLOPT_ENCODING => "",
+	  CURLOPT_MAXREDIRS => 10,
+	  CURLOPT_TIMEOUT => 30,
+	  CURLOPT_SSL_VERIFYHOST => 0,
+	  CURLOPT_SSL_VERIFYPEER => 0,
+	  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	  CURLOPT_CUSTOMREQUEST => "POST",
+	  CURLOPT_POSTFIELDS => json_encode($fields),
+	  CURLOPT_HTTPHEADER => array(
+		"authorization: hwnRxDly6bZvHrOIWiL0GQSMAJKNEke1BaYz79oduXTmtVcpqf0uGp4lZLDRJEOqMa321AFvm8QCre5c",
+		"accept: */*",
+		"cache-control: no-cache",
+		"content-type: application/json"
+	  ),
+	));
+	
+	$response = curl_exec($curl);
+	$err = curl_error($curl);
+	
+	curl_close($curl);
+	
+	if ($err) {
+	//   echo "cURL Error #:" . $err;
+	echo "<script>alert('Mail should not be send on DND Numbers !')</script>";
+	} else {
+	//   echo $response;
+	echo "<script>alert('Your OTP has been send successfully !')</script>";
+	}
+	
 
 }
 ?>
@@ -68,17 +154,20 @@ if (isset($_POST['submit'])) {
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hosting<i class="caret"></i></a>
 									<ul class="dropdown-menu">
-										<li><a href="linuxhosting.php">Linux hosting</a></li>
-										<li><a href="wordpresshosting.php">WordPress Hosting</a></li>
-										<li><a href="windowshosting.php">Windows Hosting</a></li>
-										<li><a href="cmshosting.php">CMS Hosting</a></li>
+									<? foreach ($catList as $value){
+											?>
+											<li><a href="linuxhosting.php"><?php echo $value['prod_name'];?></a></li>
+											<!-- <li><a href="wordpresshosting.php">WordPress Hosting</a></li>
+											<li><a href="windowshosting.php">Windows Hosting</a></li>
+											<li><a href="cmshosting.php">CMS Hosting</a></li> -->
+										<?}?>
 									</ul>			
 								</li>
 								<li><a href="pricing.php">Pricing</a></li>
 								<li><a href="blog.php">Blog</a></li>
 								<li><a href="contact.php">Contact</a></li>
 								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-								<li><a href="logout.php">Logout</a></li>
+								<li><a href="login.php">Login</a></li>
 							</ul>
 									  
 						</div><!-- /.navbar-collapse -->
@@ -98,19 +187,46 @@ if (isset($_POST['submit'])) {
 					<h3>personal information</h3>
 					 <div>
 						<span>Name<label>*</label></span>
-						<input  type="text" name = "username" required> 
+						<input  type="text" name = "username" class="form-control" required> 
 					 </div>
 					 <div>
 						 <span>Email Address<label>*</label></span>
-						 <input  type="email" name ="email" required> 
+						 <input  type="email" name = "email" class="form-control" required> 
 					 </div>
 					 <div>
 						<span>Mobile<label>*</label></span>
-						<input type="number" name ="mobile" required> 
+						<input type="number" name ="mobile" class="form-control" required> 
+					 </div>
+					 <div>
+						<span>Password<label>*</label></span>
+						<input  type="password" name = "password" class="form-control" required>
+					 </div>
+					 <div>
+						<span>Confirm Password<label>*</label></span>
+						<input  type="password" name = "confirm_password" class="form-control" required>
 					 </div>
 					 <div>
 						<span>Security question<label>*</label></span>
-						<select  name="question" id="question">
+						<select  name="question" id="question" class="form-control">
+							<option value="">please select the security question</option>
+							<option value="1">What was your childhood nickname?</option>
+							<option value="2">What is the name of your favourite childhood friend?</option>
+							<option value="3">What was your favourite place to visit as a child?</option>
+							<option value="4">What was your dream job as a child?</option>
+							<option value="5">What is your favourite teacher's nickname?</option>
+						</select>
+						<div id="answer">
+							<span>Security answer<label>*</label></span>
+							<input  type="text" name = "answer" class="form-control" required> 
+					 	</div>
+					</div>
+					<div class="register-but">
+						<input type="submit" value="submit" name = "submit" required>
+						<div class="clearfix"> </div>
+					</div>
+					 <!-- <div>
+						<span>Security question<label>*</label></span>
+						<select  name="question" id="question" class="form-control">
 							<option value="">please select the security question</option>
 							<option value="1">What was your childhood nickname?</option>
 							<option value="2">What is the name of your favourite childhood friend?</option>
@@ -119,39 +235,51 @@ if (isset($_POST['submit'])) {
 							<option value="5">What is your favourite teacher's nickname?</option>
 						</select>
 
-						<!-- <input type="text" name = "question" required>  -->
 					 </div>
 					 <div id="answer">
 						<span>Security answer<label>*</label></span>
-						<input  type="text" name = "answer"  required> 
-					 </div>
-					 <!-- <div class="clearfix"> </div>
-					   <a class="news-letter" href="#">
-						 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i>Sign Up for Newsletter</label>
-					   </a>-->
-					 </div>
+						<input  type="text" name = "answer" class="form-control" required> 
+					 </div> -->
+					 
+					</div>
 				     <div class="register-bottom-grid">
-						    <h3>login information</h3>
-							 <div>
-								<span>Password<label>*</label></span>
-								<input  type="password" name = "password" required>
-							 </div>
-							 <div>
-								<span>Confirm Password<label>*</label></span>
-								<input  type="password" name = "confirm_password" required>
-							 </div>
+						<!-- <h3>login information</h3> -->
+							<!-- <div>
+							<span>Password<label>*</label></span>
+							<input  type="password" name = "password" class="form-control" required>
+							</div>
+							<div>
+							<span>Confirm Password<label>*</label></span>
+							<input  type="password" name = "confirm_password" class="form-control" required>
+							</div>
+							<div>
+						<span>Security question<label>*</label></span>
+						<select  name="question" id="question" class="form-control">
+							<option value="">please select the security question</option>
+							<option value="1">What was your childhood nickname?</option>
+							<option value="2">What is the name of your favourite childhood friend?</option>
+							<option value="3">What was your favourite place to visit as a child?</option>
+							<option value="4">What was your dream job as a child?</option>
+							<option value="5">What is your favourite teacher's nickname?</option>
+						</select> -->
+
+					 </div>
+					 <!-- <div id="answer">
+						<span>Security answer<label>*</label></span>
+						<input  type="text" name = "answer" class="form-control" required> 
+					 </div>
 					 </div>
 					 	<div class="register-but">
 						 <input type="submit" value="submit" name = "submit" required>
 						 <div class="clearfix"> </div>
-					</div>
+						</div> -->
 					 
 				</form>
 				<div class="clearfix"> </div>
 				<div class="register-but">
 				   <form action="">
 					   <!-- <input type="submit" value="submit" name = "submit"> -->
-					   <div class="clearfix"> </div>
+					   <div class="clearfix"></div>
 					</form>
 				</div>
 		   </div>

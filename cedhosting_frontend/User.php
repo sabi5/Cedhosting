@@ -36,8 +36,9 @@ class User {
             setcookie('username', $email, time() + (86400 * 30), "/"); // 86400 = 1 day
                
                 $db_pass = $username_pass['password'];
-                $_SESSION['user'] = array('username'=>$username_pass['username'],
+                $_SESSION['user'] = array('username'=>$username_pass['name'],
                             'id'=>$username_pass['id'], 'is_admin'=>$username_pass['is_admin'], 'active'=>$username_pass['active'], 'email'=>$username_pass['email']);   
+                            // print_r($_SESSION['user']);
                 
                 // ************* end cookies
                 if ($password==$db_pass) {
@@ -75,7 +76,7 @@ class User {
                 $password = trim($password);
                 $username = trim($username); 
               
-                if ( !ctype_alpha($username)) { 
+                if (!preg_match('/^([a-zA-Z]+\s?)*$/', $username)){ 
             
                     echo "<script>alert('Username must contain letters only');</script>";
 

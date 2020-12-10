@@ -10,7 +10,7 @@ class Dbconnection {
         $this->con = new mysqli('localhost', 'root', '', 'CedHosting');
         
         if ($this->con) {
-            echo "<script>alert('Connection Successful');</script>";
+            // echo "<script>alert('Connection Successful');</script>";
         } else {
             echo "<script>alert('No Connection');</script>";
             die("no connection" . mysqli_connect_error());

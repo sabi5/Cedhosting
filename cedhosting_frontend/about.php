@@ -1,4 +1,17 @@
-<?php require "header.php"; ?>
+<?php
+session_start();
+require "header.php";
+
+    
+require "Dbconnection.php";
+require "Product.php";
+
+
+$Product = new Product();
+$Connection = new Dbconnection();
+
+$catList = $Product->categoryList($Connection->con);
+ ?>
 <title>About page</title>
 <!--script-->
 <script src="js/modernizr.custom.97074.js"></script>
@@ -48,10 +61,13 @@
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hosting<i class="caret"></i></a>
 									<ul class="dropdown-menu">
-										<li><a href="linuxhosting.php">Linux hosting</a></li>
-										<li><a href="wordpresshosting.php">WordPress Hosting</a></li>
-										<li><a href="windowshosting.php">Windows Hosting</a></li>
-										<li><a href="cmshosting.php">CMS Hosting</a></li>
+									<? foreach ($catList as $value){
+											?>
+											<li><a href="linuxhosting.php"><?php echo $value['prod_name'];?></a></li>
+											<!-- <li><a href="wordpresshosting.php">WordPress Hosting</a></li>
+											<li><a href="windowshosting.php">Windows Hosting</a></li>
+											<li><a href="cmshosting.php">CMS Hosting</a></li> -->
+										<?}?>
 									</ul>			
 								</li>
 								<li><a href="pricing.php">Pricing</a></li>
