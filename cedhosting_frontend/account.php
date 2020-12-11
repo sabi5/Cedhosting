@@ -62,7 +62,7 @@ if (isset($_POST['submit'])) {
 	// mobile otp
 
 
-
+	$_SESSION['mobileotp']=$otp;
 	$fields = array(
 		"sender_id" => "FSTSMS",
 		"message" => "Your OTP: " . $otp,

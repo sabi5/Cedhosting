@@ -9,14 +9,22 @@
     $Connection = new Dbconnection();
 
     if (isset($_POST['submit'])) {
-        // $name =  $_POST['name'];
+        $select =  $_POST['select'];
         $product_name = $_POST['product_name'];
-        $link = $_POST['link'];
-        $categoryInsert = $Product->categoryInsert( $product_name, $link, $Connection->con);
+        $page_url = $_POST['page_url'];
+        $monthly_price = $_POST['monthly_price'];
+        $annual_price = $_POST['annual_price'];
+        $sku = $_POST['sku'];
+        $web_space = $_POST['web_space'];
+        $bandwidth = $_POST['bandwidth'];
+        $free_domain = $_POST['free_domain'];
+        $language_support = $_POST['language_support'];
+        $mailbox = $_POST['mailbox'];
+        $addProduct = $Product->addProduct( $select, $product_name, $page_url, $monthly_price, $annual_price, $sku, $web_space, $bandwidth, $free_domain, $language_support, $mailbox,  $Connection->con);
     }
     
-    $sql = $Product->category($Connection->con);
-    $catList = $Product->categoryList($Connection->con);
+    // $sql = $Product->addProduct($Connection->con);
+    // $catList = $Product->categoryList($Connection->con);
   
 ?>
 
@@ -91,7 +99,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="examples/profile.html">
+              <a class="nav-link" href="view.php">
                 <i class="ni ni-single-02 text-yellow"></i>
                 <span class="nav-link-text">View Products</span>
               </a>
@@ -497,25 +505,25 @@
             </div>
             <div class="card-body px-lg-5 py-lg-5">
               
-              <form role="form" action ="category.php" method = "post">
+              <form role="form" action ="addproduct.php" method = "post">
                 <div class="form-group">
-                <label for="">Select Product Category  <span style = "color:red">*</span></label>
+                  <label for="product">Select Product Category  <span style = "color:red">*</span></label>
                   <div class="input-group input-group-merge input-group-alternative mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                   <select name="" id="" class="form-control">
+                   <select name="select" id="" class="form-control">
                        <option value="" >Please Select</option>
-                       <option value="" >Linux Hosting</option>
-                       <option value="" >Windows Hosting</option>
-                       <option value="" >CMS Hosting</option>
-                       <option value="" >WordPress Hosting</option>
+                       <option value="1" >Linux Hosting</option>
+                       <option value="2" >Windows Hosting</option>
+                       <option value="3" >CMS Hosting</option>
+                       <option value="4" >WordPress Hosting</option>
                    </select>
                     <!-- <input class="form-control" placeholder="" type="text" name = "name"> -->
                   </div>
                 </div>
                 <div class="form-group">
-                <label for="">Select Product Category <span style = "color:red">*</span></label>
+                  <label for="">Enter Product Name<span style = "color:red">*</span></label>
                   <div class="input-group input-group-merge input-group-alternative mb-3">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
@@ -529,7 +537,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Enter Product name" type="text" name = "product_name">
+                    <input class="form-control" placeholder="Enter Product name" type="text" name = "page_url">
                   </div>
                 </div>
                 <hr>
@@ -543,7 +551,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="ex: 23" type="text" name ="link"><br>
+                    <input class="form-control" placeholder="ex: 23" type="text" name ="monthly_price"><br>
                     
                   </div><br>
                   <span><h6>This would be Monthly Plan</h6></span>
@@ -554,7 +562,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="ex: 23" type="text" name ="link"><br>
+                    <input class="form-control" placeholder="ex: 23" type="text" name ="annual_price"><br>
                     
                   </div><br>
                   <span><h6>This would be Annual Plan</h6></span>
@@ -566,7 +574,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name ="link"><br>
+                    <input class="form-control" placeholder="" type="text" name ="sku"><br>
                   </div>
                 </div>
                 <hr>
@@ -579,7 +587,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "product_name">
+                    <input class="form-control" placeholder="" type="text" name = "web_space">
                   </div>
                   <span><h6>Enter 0.5 for 512 MB</h6></span>
                 </div>
@@ -590,7 +598,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "product_name">
+                    <input class="form-control" placeholder="" type="text" name = "bandwidth">
                   </div>
                   <span><h6>Enter 0.5 for 512 MB</h6></span>
                 </div>
@@ -600,7 +608,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "product_name">
+                    <input class="form-control" placeholder="" type="text" name = "free_domain">
                   </div>
                   <span><h6>Enter 0 if no domain available in this service</h6></span>
                 </div>
@@ -610,7 +618,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "product_name">
+                    <input class="form-control" placeholder="" type="text" name = "language_support">
                   </div>
                   <span><h6>Separate by (,) Ex: PHP, MySQL, MongoDB</h6></span>
                 </div>
@@ -620,7 +628,7 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "product_name">
+                    <input class="form-control" placeholder="" type="text" name = "mailbox">
                   </div>
                   <span><h6>Enter Number of mailbox will be provided, enter 0 if none</h6></span>
                 </div>
@@ -631,13 +639,9 @@
             </div>
           </div>
         </div>
-        
       </div>
-      
       <?php require "footer.php";?>
-    
   </div>
-  
 </body>
 
 </html>

@@ -8,15 +8,15 @@
     $Product = new Product();
     $Connection = new Dbconnection();
 
-    if (isset($_POST['submit'])) {
-        // $name =  $_POST['name'];
-        $product_name = $_POST['product_name'];
-        $link = $_POST['link'];
-        $categoryInsert = $Product->categoryInsert( $product_name, $link, $Connection->con);
-    }
+    // if (isset($_POST['submit'])) {
+    //     // $name =  $_POST['name'];
+    //     $product_name = $_POST['product_name'];
+    //     $link = $_POST['link'];
+    //     $categoryInsert = $Product->categoryInsert( $product_name, $link, $Connection->con);
+    // }
     
-    $sql = $Product->category($Connection->con);
-    $catList = $Product->categoryList($Connection->con);
+    $sql = $Product->view($Connection->con);
+    // $catList = $Product->categoryList($Connection->con);
   
 ?>
 
@@ -480,150 +480,17 @@
               <a href="#" class="btn btn-sm btn-neutral">Filters</a>
             </div>
           </div>
-          <!-- Card stats -->
-          <!-- <div class="row">
-            <div class="col-xl-3 col-md-6">
-              <div class="card card-stats">
-                <!-- Card body -->
-                <!-- <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Total traffic</h5>
-                      <span class="h2 font-weight-bold mb-0">350,897</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                        <i class="ni ni-active-40"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="mt-3 mb-0 text-sm">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-              <div class="card card-stats">
-                <!-- Card body -->
-                <!-- <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                      <span class="h2 font-weight-bold mb-0">2,356</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-                        <i class="ni ni-chart-pie-35"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="mt-3 mb-0 text-sm">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-              <div class="card card-stats"> -->
-                <!-- Card body -->
-                <!-- <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                      <span class="h2 font-weight-bold mb-0">924</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                        <i class="ni ni-money-coins"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="mt-3 mb-0 text-sm">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-              <div class="card card-stats"> -->
-                <!-- Card body -->
-                <!-- <div class="card-body">
-                  <div class="row">
-                    <div class="col">
-                      <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                      <span class="h2 font-weight-bold mb-0">49,65%</span>
-                    </div>
-                    <div class="col-auto">
-                      <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                        <i class="ni ni-chart-bar-32"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <p class="mt-3 mb-0 text-sm">
-                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                    <span class="text-nowrap">Since last month</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div> --> 
         </div>
       </div>
     </div>
     <!-- Page content -->
     <div class="container-fluid mt--6">
-      <div class="row justify-content-center">
-        <div class="col-xl-8">
-          <div class="card bg-secondary border-0">
-            <div class="card-header bg-transparent pb-5">
-              <div class="text-muted text-center mt-2 mb-4"><small>Create Category</small></div>
-            </div>
-            <div class="card-body px-lg-5 py-lg-5">
-              <form role="form" action ="category.php" method = "post">
-                <div class="form-group">
-                  <div class="input-group input-group-merge input-group-alternative mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
-                    </div>
-                    <? foreach($sql as $value){?>
-                    <input class="form-control" placeholder="<?php echo $value['prod_name']; ?>" type="text" name = "name" disabled>
-                    <?}?>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group input-group-merge input-group-alternative mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Product name" type="text" name = "product_name">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group input-group-merge input-group-alternative">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                    </div>
-                    <input class="form-control" placeholder="Link" type="text" name ="link">
-                  </div>
-                </div>
-                <div class="text-center">
-                  <input type="submit" class="btn btn-primary mt-4" name ="submit" value ="Create Category">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="row">
         <div class="col-xl-12">
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Category List</h3>
+                  <h3 class="mb-0">Product List</h3>
                 </div>
                 <div class="col text-right">
                   <a href="#!" class="btn btn-sm btn-primary">See all</a>
@@ -635,23 +502,30 @@
               <table id ="myTable" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Id</th>
+                    <!-- <th scope="col">Id</th> -->
                     <th scope="col">prod_parent_id</th>
                     <th scope="col">prod_name</th>
                     <th scope="col">link</th>
                     <th scope="col">prod_available</th>
                     <th scope="col">prod_launch_date</th>
-                    <th scope="col">Action</th>
-                    <th></th>
+                    <th scope="col">prod_id</th>
+                    <th scope="col">webspace</th>
+                    <th scope="col">bandwidth</th>
+                    <th scope="col">freedomain</th>
+                    <th scope="col">Language</th>
+                    <th scope="col">Mailbox</th>
+                    <th scope="col">mon_price</th>
+                    <th scope="col">annual_price</th>
+                    <th scope="col">SKU</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
-                    foreach($catList as $value){
+                    foreach($sql as $value){
                   ?>
                         
                     <tr>
-                      <td><?php echo $value['id']; ?></td>
+                      <!-- <td><?php echo $value['id']; ?></td> -->
                       <td><?php echo $value['prod_parent_id']; ?></td>
                       <td><?php echo $value['prod_name']; ?></td>
                       <td><?php echo $value['link']; ?></td>
