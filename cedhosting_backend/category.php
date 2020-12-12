@@ -623,7 +623,7 @@
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Category List</h3>
+                  <h1 class="mb-0">Category List</h1>
                 </div>
                 <div class="col text-right">
                   <a href="#!" class="btn btn-sm btn-primary">See all</a>
@@ -635,12 +635,12 @@
               <table id ="myTable" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">prod_parent_id</th>
-                    <th scope="col">prod_name</th>
-                    <th scope="col">link</th>
-                    <th scope="col">prod_available</th>
-                    <th scope="col">prod_launch_date</th>
+                    <!-- <th scope="col">Id</th> -->
+                    <th scope="col">Category parent</th>
+                    <th scope="col">Category name</th>
+                    <th scope="col">Category link</th>
+                    <th scope="col">Category available</th>
+                    <th scope="col">Category launchdate</th>
                     <th scope="col">Action</th>
                     <th></th>
                   </tr>
@@ -651,17 +651,19 @@
                   ?>
                         
                     <tr>
-                      <td><?php echo $value['id']; ?></td>
-                      <td><?php echo $value['prod_parent_id']; ?></td>
+                      <!-- <td><?php echo $value['id']; ?></td> -->
+                      <td><?php if ($value['prod_parent_id'] == 1){ echo "Hosting";} ?></td>
                       <td><?php echo $value['prod_name']; ?></td>
                       <td><?php echo $value['link']; ?></td>
-                      <td><?php echo $value['prod_available']; ?></td>
+                      <td><?php if($value['prod_available'] == 1){ echo "Available";} else { echo "Unavailable";} ?></td>
                       <td><?php echo $value['prod_launch_date']; ?></td>
                     
-                      <td><a href="deletestatus.php" data-id="<?php echo $value['id']; ?>" title='Delete' onclick="return confirm('Are you sure?')">DELETE</a></td>
+                      <td><a href="category.php" id="<?php echo $value['id']; ?>" class="delete_data"><i class='fas fa-trash' style='font-size:24px'></i></a></td>
                       
+                      <td><a href="category.php" id="<?php echo $value['id']; ?>" class ="edit_data" data-toggle="modal" data-target="#exampleModalSignUp"><i class='fas fa-edit' style='font-size:24px'></i></a></td>
+
                       <!-- <td><a href="" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#exampleModalSignUp">EDIT</a></td> --> 
-                      <td><a href="editstatus.php?id=<?php echo $value['ride_id']; ?>" title='Edit' onclick="return confirm('Are you sure?')"><i class='fas fa-edit' style='font-size:24px'></i></a></td>
+                      
                       <!-- <td><input type = "button" id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#exampleModalSignUp" class ="edit" value="EDIT"></td> -->
                     </tr>
                   <?php
@@ -671,13 +673,8 @@
             </div>
         </div>
       </div>
-      
-
-
-
-
       <!-- MODAL -->
-      <div class="col-md-4">
+  <div class="col-md-4">
     <!-- Button trigger modal -->
 
     <!-- Modal -->
@@ -734,9 +731,26 @@
     </div>
   </div>
 </div>
-      <?php require "footer.php";?>
+    <?php require "footer.php";?>
     <script>
-      
+      $(document).on('click', '.delete_data', function(){
+        var delete_id = $(this).attr('id');
+        var $ele = $(this).parent().parent();
+        alert (delete_id);
+        $.ajax({
+          url : "operation.php",
+          type : "post",
+          data : {delete_id : delete_id, action : "delete"},
+          success: function(data){
+                 if(data=="YES"){
+                    $ele.fadeOut().remove();
+                    alert ("Account deleted Successfully");
+                 }else{
+                    alert ("can't deleted");
+                 }
+             }
+        });
+      });
     
     </script>
   </div>

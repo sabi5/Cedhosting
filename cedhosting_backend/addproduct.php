@@ -28,8 +28,6 @@
   
 ?>
 
-
-
 <?php require "header.php";?>
 
   <!-- Argon Scripts -->
@@ -49,6 +47,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script> 
 <link href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" rel="stylesheet">
+
         <script>
             $(document).ready(function(){
             $("#myTable").dataTable();
@@ -512,13 +511,17 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
                     </div>
-                   <select name="select" id="" class="form-control">
-                       <option value="" >Please Select</option>
+                   <select name="select" id="select" onfocusout = "validate()" class="form-control is-invalid">
+                       <option value="please select" disabled >Please Select</option>
                        <option value="1" >Linux Hosting</option>
                        <option value="2" >Windows Hosting</option>
                        <option value="3" >CMS Hosting</option>
                        <option value="4" >WordPress Hosting</option>
                    </select>
+                   <div class="invalid-feedback" id="error1">
+                        please enter valid product name
+                    </div>
+                   
                     <!-- <input class="form-control" placeholder="" type="text" name = "name"> -->
                   </div>
                 </div>
@@ -528,7 +531,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Enter Product name" type="text" name = "product_name">
+                    <input class="form-control is-invalid" id="product" placeholder="Enter Product name" type="text" name = "product_name" onfocusout = "validate()" required>
+                    <div class="invalid-feedback" id = "error2">
+                        please enter valid product name
+                    </div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -537,7 +543,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="Enter Product name" type="text" name = "page_url">
+                    <input class="form-control is-invalid" placeholder="Enter Product name" type="text" name = "page_url">
+                    <!-- <div class="invalid-feedback" id ="error3">
+                        please enter valid product name
+                    </div> -->
                   </div>
                 </div>
                 <hr>
@@ -551,8 +560,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="ex: 23" type="text" name ="monthly_price"><br>
-                    
+                    <input class="form-control is-invalid" id ="month" onfocusout = "validate()" placeholder="ex: 23" type="text" name ="monthly_price" required><br>
+                    <div class="invalid-feedback" id ="error4">
+                        please enter valid product name
+                    </div>
                   </div><br>
                   <span><h6>This would be Monthly Plan</h6></span>
                 </div>
@@ -562,8 +573,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="ex: 23" type="text" name ="annual_price"><br>
-                    
+                    <input class="form-control is-invalid" id = "annual" onfocusout = "validate()" placeholder="ex: 23" type="text" name ="annual_price" required><br>
+                    <div class="invalid-feedback" id="error5">
+                        please enter valid product name
+                    </div>
                   </div><br>
                   <span><h6>This would be Annual Plan</h6></span>
                 </div>
@@ -574,7 +587,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name ="sku"><br>
+                    <input class="form-control is-invalid" id = "sku" onfocusout = "validate()" placeholder="" type="text" name ="sku" required><br>
+                    <div class="invalid-feedback" id = "error6">
+                        please enter valid product name
+                    </div>
                   </div>
                 </div>
                 <hr>
@@ -587,7 +603,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "web_space">
+                    <input class="form-control is-invalid" onfocusout = "validate()" id="webspace" placeholder="" type="text" name = "web_space" required>
+                    <div class="invalid-feedback" id = "error7">
+                        please enter valid product name
+                    </div>
                   </div>
                   <span><h6>Enter 0.5 for 512 MB</h6></span>
                 </div>
@@ -598,7 +617,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "bandwidth">
+                    <input class="form-control is-invalid" onfocusout = "validate()" id="bandwidth" placeholder="" type="text" name = "bandwidth" required>
+                    <div class="invalid-feedback" id="error8">
+                        please enter valid product name
+                    </div>
                   </div>
                   <span><h6>Enter 0.5 for 512 MB</h6></span>
                 </div>
@@ -608,7 +630,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "free_domain">
+                    <input class="form-control is-invalid" onfocusout = "validate()" id="free" placeholder="" type="text" name = "free_domain" required>
+                    <div class="invalid-feedback" id ="error9">
+                        please enter valid product name
+                    </div>
                   </div>
                   <span><h6>Enter 0 if no domain available in this service</h6></span>
                 </div>
@@ -618,7 +643,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "language_support">
+                    <input class="form-control is-invalid" onfocusout = "validate()" id ="language" placeholder="" type="text" name = "language_support" required>
+                    <div class="invalid-feedback" id ="error10">
+                        please enter valid product name
+                    </div>
                   </div>
                   <span><h6>Separate by (,) Ex: PHP, MySQL, MongoDB</h6></span>
                 </div>
@@ -628,7 +656,10 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                     </div>
-                    <input class="form-control" placeholder="" type="text" name = "mailbox">
+                    <input class="form-control is-invalid" onfocusout = "validate()" id ="mailbox" placeholder="" type="text" name = "mailbox" required>
+                    <div class="invalid-feedback" id ="error11">
+                        please enter valid product name
+                    </div>
                   </div>
                   <span><h6>Enter Number of mailbox will be provided, enter 0 if none</h6></span>
                 </div>
@@ -642,6 +673,112 @@
       </div>
       <?php require "footer.php";?>
   </div>
+
+  <script>
+    function validate(){
+      var input = document.getElementById('select').value;
+      var product = document.getElementById('product').value;
+      var month = document.getElementById('month').value;
+      var annual = document.getElementById('annual').value;
+      var sku = document.getElementById('sku').value;
+      var webspace = document.getElementById('webspace').value;
+      var bandwidth = document.getElementById('bandwidth').value;
+      var free = document.getElementById('free').value;
+      var language = document.getElementById('language').value;
+      var mailbox = document.getElementById('mailbox').value;      
+
+        if(input == ""){
+            document.getElementById("error1").style.display = "display";
+            
+        } else {
+            document.getElementById("error1").style.display = "none";
+        }
+
+        if(product == ""){
+            document.getElementById("error2").style.display = "display";
+           
+        } else {
+            document.getElementById("error2").style.display = "none";
+        }
+
+        if(month == ""){
+            document.getElementById("error4").style.display = "display";
+           
+        } else {
+            document.getElementById("error4").style.display = "none";
+        }
+
+        if(annual == ""){
+            document.getElementById("error5").style.display = "display";
+           
+        } else {
+            document.getElementById("error5").style.display = "none";
+        }
+
+        if(sku == ""){
+            document.getElementById("error6").style.display = "display";
+            
+        } else {
+            document.getElementById("error6").style.display = "none";
+        }
+
+        if(webspace == ""){
+            document.getElementById("error7").style.display = "display";
+            
+        } else {
+            document.getElementById("error7").style.display = "none";
+        }
+
+        if(bandwidth == ""){
+            document.getElementById("error8").style.display = "display";
+           
+        } else {
+            document.getElementById("error8").style.display = "none";
+        }
+
+        if(free == ""){
+            document.getElementById("error9").style.display = "display";
+            
+        } else {
+            document.getElementById("error9").style.display = "none";
+        }
+        if(language == ""){
+            document.getElementById("error10").style.display = "display";
+            
+        } else {
+            document.getElementById("error10").style.display = "none";
+        }
+        if(mailbox == ""){
+            document.getElementById("error11").style.display = "display";
+        } else {
+            document.getElementById("error11").style.display = "none";
+        }
+  }
+
+  $(document).ready(function (){
+    validate1();
+    $('#select, #product, #month, #annual, #sku, #webspace, #bandwidth, #language, #mailbox, #free').change(validate1);
+});
+
+function validate1(){
+    if ($('#select').val().length   >   0   &&
+        $('#product').val().length  >   0   &&
+        $('#month').val().length  >   0   &&
+        $('#annual').val().length  >   0   &&
+        $('#sku').val().length  >   0   &&
+        $('#webspace').val().length  >   0   &&
+        $('#bandwidth').val().length  >   0   &&
+        $('#language').val().length  >   0   &&
+        $('#mailbox').val().length  >   0   &&
+        $('#free').val().length    >   0) {
+        $("input[type=submit]").prop("disabled", false);
+    }
+    else {
+        $("input[type=submit]").prop("disabled", true);
+    }
+}
+
+  </script>
 </body>
 
 </html>

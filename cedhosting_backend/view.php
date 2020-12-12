@@ -4,23 +4,13 @@
     require "../cedhosting_frontend/Dbconnection.php";
     require "../cedhosting_frontend/Product.php";
     
-
     $Product = new Product();
     $Connection = new Dbconnection();
-
-    // if (isset($_POST['submit'])) {
-    //     // $name =  $_POST['name'];
-    //     $product_name = $_POST['product_name'];
-    //     $link = $_POST['link'];
-    //     $categoryInsert = $Product->categoryInsert( $product_name, $link, $Connection->con);
-    // }
-    
     $sql = $Product->view($Connection->con);
-    // $catList = $Product->categoryList($Connection->con);
+    // echo $sql;
+    // echo "hello";
   
 ?>
-
-
 
 <?php require "header.php";?>
 
@@ -484,13 +474,13 @@
       </div>
     </div>
     <!-- Page content -->
-    <div class="container-fluid mt--6">
+    <div class="container-fluid mt">
       <div class="row">
         <div class="col-xl-12">
             <div class="card-header border-0">
               <div class="row align-items-center">
                 <div class="col">
-                  <h3 class="mb-0">Product List</h3>
+                  <h1 class="mb-0">Product List</h1>
                 </div>
                 <div class="col text-right">
                   <a href="#!" class="btn btn-sm btn-primary">See all</a>
@@ -503,25 +493,34 @@
                 <thead class="thead-light">
                   <tr>
                     <!-- <th scope="col">Id</th> -->
-                    <th scope="col">prod_parent_id</th>
-                    <th scope="col">prod_name</th>
-                    <th scope="col">link</th>
-                    <th scope="col">prod_available</th>
-                    <th scope="col">prod_launch_date</th>
-                    <th scope="col">prod_id</th>
+                    <!-- <th scope="col">prod_parent_id</th> -->
+                    <th scope="col">Product name</th>
+                    <th scope="col">Product link</th>
+                    <th scope="col">Product available</th>
+                    <th scope="col">Product launchdate</th>
+                    <!-- <th scope="col">prod_id</th> -->
                     <th scope="col">webspace</th>
                     <th scope="col">bandwidth</th>
                     <th scope="col">freedomain</th>
                     <th scope="col">Language</th>
                     <th scope="col">Mailbox</th>
-                    <th scope="col">mon_price</th>
-                    <th scope="col">annual_price</th>
+                    <th scope="col">month price</th>
+                    <th scope="col">annual price</th>
                     <th scope="col">SKU</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php
                     foreach($sql as $value){
+                      $decode_desc = $value['description'];
+                      $obj = json_decode($decode_desc);
+                    
+                      $web_space = $obj->webspace;
+                      $bandwidth = $obj->bandwidth;
+                      $free_domain = $obj->freedomain;
+                      $language_support = $obj->language;
+                      $mailbox = $obj->mailbox;
                   ?>
                         
                     <tr>
@@ -529,10 +528,19 @@
                       <td><?php echo $value['prod_parent_id']; ?></td>
                       <td><?php echo $value['prod_name']; ?></td>
                       <td><?php echo $value['link']; ?></td>
-                      <td><?php echo $value['prod_available']; ?></td>
+                      <td><?php if($value['prod_available'] == 1){ echo "Available";} else { echo "Unavailable";} ?></td>
                       <td><?php echo $value['prod_launch_date']; ?></td>
-                    
-                      <td><a href="deletestatus.php" data-id="<?php echo $value['id']; ?>" title='Delete' onclick="return confirm('Are you sure?')">DELETE</a></td>
+                      <!-- <td><?php echo $value['prod_id']; ?></td> -->
+                      <td><?php echo $web_space; ?></td>
+                      <td><?php echo $bandwidth; ?></td>
+                      <td><?php echo $free_domain; ?></td>
+                      <td><?php echo $language_support; ?></td>
+                      <td><?php echo $mailbox; ?></td>
+                      <td><?php echo $value['annual_price']; ?></td>
+                      <td><?php echo $value['sku']; ?></td>
+                      
+
+                      <td><a href="deletestatus.php" data-id="<?php echo $value['id']; ?>" title='Delete' onclick="return confirm('Are you sure?')"><i class='fas fa-trash' style='font-size:24px'></i></a></td>
                       
                       <!-- <td><a href="" data-id="<?php echo $value['id']; ?>" data-toggle="modal" data-target="#exampleModalSignUp">EDIT</a></td> --> 
                       <td><a href="editstatus.php?id=<?php echo $value['ride_id']; ?>" title='Edit' onclick="return confirm('Are you sure?')"><i class='fas fa-edit' style='font-size:24px'></i></a></td>
