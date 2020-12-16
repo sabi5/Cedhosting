@@ -4,8 +4,12 @@
 		
 	require "Dbconnection.php";
 	require "Product.php";
-	
-	$id = $_GET['id'];
+	 if(isset($_GET['id'])){
+
+		$id = $_GET['id'];
+	 }else{
+		echo "<script>location.replace('index.php');</script>";
+	 }
 	$Product = new Product();
 	$Connection = new Dbconnection();
 	
@@ -82,15 +86,18 @@
 						<div class="container">
 							<div class="linux-grids">
 								<div class="col-md-8 linux-grid">
-								<h2><?php foreach ($hostingData as $value){
-										echo $value['prod_name'];
-									?>
-								</h2>
-								<?
-							echo $value['html'];
-							}?>
-								
-								<a href="#myTab">view plans</a>
+									<h2><p><?php 
+									if(!empty($hostingData)){
+									
+									foreach ($hostingData as $value){
+											echo $value['prod_name'];
+										?></p>
+									</h2>
+									<?
+									echo $value['html'];
+									}}?>
+									
+									<a href="#myTab">view plans</a>
 								</div>
 								<div class="col-md-4 linux-grid1">
 									<img src="images/linux.png" class="img-responsive" alt=""/>

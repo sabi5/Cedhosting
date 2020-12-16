@@ -170,7 +170,7 @@ class User {
                             if ($iquery) {
                                 echo "<script>alert('Inserted Successful');</script>";
                                 // echo "<script>location.replace('verify.php?');</script>";
-                                // header('location: verify.php?email='.$email.'&mobile='.$mobile);
+                                header('location: verify.php?email='.$email.'&mobile='.$mobile.'&name='.$username);
                             } else {
                                 echo "<script>alert('Not inserted');</script>";
                             }
@@ -183,13 +183,25 @@ class User {
         
     }
 
-    function emailVerify($con){
+    function activeEmail($email, $con){
 
-       $id = $_SESSION['user']['id'];
         $sql = "UPDATE `tbl_user` SET `email_approved` = '1', `active` = '1'
-                WHERE `id` = '$id' ";
+                WHERE `email` = '$email' ";
                 if ($con->query($sql) === true) {
-                    $msg = "Record updated successfully";
+                    echo "<script>alert('Your email is successfully verified !')</script>";
+                    echo '<script>window.location.href="login.php";</script>';
+                } else {
+                    $msg = "Error updating record: " . $con->error;
+                }
+    }
+
+    function activeMobile($mobile, $con){
+
+        $sql = "UPDATE `tbl_user` SET `phone_approved` = '1', `active` = '1'
+                WHERE `mobile` = '$mobile' ";
+                if ($con->query($sql) === true) {
+                    echo "<script>alert('Your mobile is successfully verified !')</script>";
+                    echo '<script>window.location.href="login.php";</script>';
                 } else {
                     $msg = "Error updating record: " . $con->error;
                 }

@@ -173,9 +173,50 @@ class Product {
         
         $sql = "SELECT `tbl_product`.*,`tbl_product_description`.* FROM `tbl_product` JOIN `tbl_product_description` ON `tbl_product`.`id` = `tbl_product_description`.`prod_id`";
      
-
         $query = $con->query($sql);
+        // $row = $query->fetch_assoc();
 
+        // $prodparent = $row['prod_parent_id'];
+        // echo $prodparent;
+
+
+
+        // $sql = "SELECT * FROM `tbl_product` WHERE `id` = '$prodparent'";
+        // print_r($sql);
+        // $query = $con->query($sql);
+        // $row = $query->fetch_assoc();
+        // print_r($row);
+        // $prod_name = $row['prod_name'];
+        // return $prod_name;
+        // print_r($query);
+       
+        
+        // if ($query->num_rows > 0) {
+
+        //     while($row = $query->fetch_assoc()){
+        //         $data[] = $row;
+               
+        //     }
+        //     return $data;
+        // }
+
+
+
+        if ($query->num_rows > 0) {
+          
+            while($row = $query->fetch_assoc()){
+               
+                $data[] = $row; 
+            }
+            return $data;
+        }
+    }
+    
+    // *********** show parent product name
+
+    function viewParent($id, $con) {
+        $sql = "SELECT * FROM `tbl_product` WHERE `id` = '$id'";
+        $query = $con->query($sql);
         if ($query->num_rows > 0) {
           
             while($row = $query->fetch_assoc()){

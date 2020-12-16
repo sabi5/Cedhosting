@@ -239,7 +239,7 @@ if (isset($_POST['submit'])) {
 							<option value="5">What is your favourite teacher's nickname?</option>
 						</select>
 						<div id="answer">
-							<span>Security answer<label>*</label></span>
+							<span>Security answer</span>
 							<input  type="text" name = "answer" class="form-control"> 
 					 	</div>
 						 <!-- <small style = "color:green">
@@ -252,22 +252,6 @@ if (isset($_POST['submit'])) {
 						<input type="submit" value="submit" name = "submit" required>
 						<div class="clearfix"> </div>
 					</div><br>
-					 <!-- <div>
-						<span>Security question<label>*</label></span>
-						<select  name="question" id="question" class="form-control">
-							<option value="">please select the security question</option>
-							<option value="1">What was your childhood nickname?</option>
-							<option value="2">What is the name of your favourite childhood friend?</option>
-							<option value="3">What was your favourite place to visit as a child?</option>
-							<option value="4">What was your dream job as a child?</option>
-							<option value="5">What is your favourite teacher's nickname?</option>
-						</select>
-
-					 </div>
-					 <div id="answer">
-						<span>Security answer<label>*</label></span>
-						<input  type="text" name = "answer" class="form-control" required> 
-					 </div> -->
 					 
 					</div>
 				     <div class="register-bottom-grid">

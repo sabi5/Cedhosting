@@ -476,8 +476,8 @@
               <table id ="myTable" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Product Id</th>
-                    <!-- <th scope="col">prod_parent_id</th> -->
+                    <!-- <th scope="col">Product Id</th> -->
+                    <th scope="col">Product parent name</th>
                     <th scope="col">Product name</th>
                     <th scope="col">Product link</th>
                     <th scope="col">Product available</th>
@@ -500,6 +500,8 @@
                   <?php
                     foreach($sql as $value){
                       $decode_desc = $value['description'];
+                      $proname = $Product->viewParent($value['prod_parent_id'], $Connection->con);
+                      
                       $obj = json_decode($decode_desc);
                     // print_r($obj);
                       $web_space = $obj->webspace;
@@ -510,7 +512,8 @@
                   ?>
                         
                     <tr>
-                      <td><?php echo $value['prod_id']; ?></td>
+                      <!-- <td><?php echo $value['prod_id']; ?></td> -->
+                      <td><?php echo $proname[0]['prod_name']; ?></td>
                       <td><?php echo $value['prod_name']; ?></td>
                       <td><?php echo $value['html']; ?></td>
                       <td><?php if($value['prod_available'] == 1){ echo "Available";} else { echo "Unavailable";} ?></td>

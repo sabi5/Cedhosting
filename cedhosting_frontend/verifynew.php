@@ -1,12 +1,11 @@
-<?php
- 
-session_start();
+<?php 
 
+session_start();
+// require "header.php";
 require "Dbconnection.php";
 require "User.php";
+$useractive=new User();
 $Connection = new Dbconnection();
-$User = new User();
-
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -19,11 +18,11 @@ $errores='';
 if (isset($_GET['email'])) {
     $email = $_GET['email'];
     $mobile = $_GET['mobile'];
-    $username = $_GET['name'];
+    $name = $_GET['name'];
 }
   if (isset($_POST['submitEmail'])) {
-    // $data=$useractive->dublicateusername($_POST['email'], '12456');
-    // if($data){
+    $data=$useractive->dublicateusername($_POST['email'], '12456');
+    if($data){
       $otp = rand(1000,9999);
       $_SESSION['otp']=$otp;
       $mail = new PHPMailer();
@@ -38,30 +37,28 @@ if (isset($_GET['email'])) {
   
           $mail->setfrom('cedcossarjun1023@gmail.com', 'CedHosting');
           $mail->addAddress($email);
-          $mail->addAddress($email, $username);
+          $mail->addAddress($email, $name);
   
           $mail->isHTML(true);
           $mail->Subject = 'Account Verification';
           $mail->Body = 'Hi User,Here is your otp for account verification: '.$otp;
           $mail->AltBody = 'Body in plain text for non-HTML mail clients';
           $mail->send();
-        //   $msg = "Dear $username OTP has been sent please check your email !";
-
-          echo "<script>alert('Your Email OTP has been send successfully !')</script>";
+          $msg = "Dear $name OTP has been sent please check your email !";
           // header('location: verification.php?email=' . $email);
       } catch (Exception $e) {
           echo "Mailer Error: " . $mail->ErrorInfo;
       }
-    // }
-    // else{
-    //   $errores='This Email is not register';
-    // }
+    }
+    else{
+      $errores='This Email is not register';
+    }
 
  
 }
 if(isset($_POST['submitMobile'])){
-//   $data=$useractive->dublicateusername('asdsds@dnfj', $_POST['Mobileotp']);
-//   if($data){
+  $data=$useractive->dublicateusername('asdsds@dnfj', $_POST['Mobileotp']);
+  if($data){
     $MobileOtp = rand(1000,9999);
     $_SESSION['moblieOtp']=$MobileOtp;
     $fields = array(
@@ -99,25 +96,23 @@ if(isset($_POST['submitMobile'])){
     curl_close($curl);
     
     if ($err) {
-	//   echo "cURL Error #:" . $err;
-	echo "<script>alert('Mail should not be send on DND Numbers !')</script>";
-	} else {
-	//   echo $response;
-	echo "<script>alert('Your Mobile OTP has been send successfully !')</script>";
-	}
-//   }
-//   else {
-//     $errorem='This Mobile is not register';
-//   }
+      echo "cURL Error #:" . $err;
+    } else {
+      echo $response;
+    }
+  }
+  else {
+    $errorem='This Mobile is not register';
+  }
 }
 if(isset($_POST['verifyEmail'])){
   if($_SESSION['otp']==$_POST['email']){
    
-    $data=$User->activeEmail($_GET['email'] , $Connection->con);
-    // if($data){
-    //     echo "<script>alert('Your email is successfully verified !')</script>";
-    //   echo '<script>window.location.href="login.php";</script>';
-    // }
+    $data=$useractive->makeActive($_GET['email']);
+    if($data){
+      $error="Your Email Is Successfully verified";
+      echo '<script>window.location.href="login.php";</script>';
+    }
   }
   else{
     $error="Incorrect OTP";
@@ -126,11 +121,11 @@ if(isset($_POST['verifyEmail'])){
 if(isset($_POST['submitOtp'])){
   if($_SESSION['moblieOtp']==$_POST['Mobileotp']){
     
-    $data=$User->activeMobile($_GET['mobile'] , $Connection->con);
-    // if($data){
-    //   $errorms="Your Mobile Is Successfully verified";
-    //   echo '<script>window.location.href="login.php";</script>';
-    // }
+    $data=$useractive->makeMobileActive($_GET['mobile']);
+    if($data){
+      $errorms="Your Mobile Is Successfully verified";
+      echo '<script>window.location.href="login.php";</script>';
+    }
     
   }
   else{
@@ -138,79 +133,9 @@ if(isset($_POST['submitOtp'])){
   }
 }
 
-
-
 ?>
-    <?php require "header.php";?>
-    <title>Verification page</title>
-    <!--script-->
-    <link rel="stylesheet" href="css/swipebox.css">
-    <script src="js/jquery.swipebox.min.js"></script> 
-        <script type="text/javascript">
-            jQuery(function($) {
-                $(".swipebox").swipebox();
-            });
-            $(document).ready(function(){
-                $('#answer').hide();
-                $('#question').change(function(){
-                    $('#answer').show();
-                });
-            });
-        </script>
-    <!--script-->
-    </head>
-    <body>
-        <!---header--->
-        <div class="header">
-            <div class="container">
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                <i class="sr-only">Toggle navigation</i>
-                                <i class="icon-bar"></i>
-                                <i class="icon-bar"></i>
-                                <i class="icon-bar"></i>
-                            </button>				  
-                            <div class="navbar-brand">
-                                <h1><a href="index.php"><span style ="color : #e7663f">Ced</span> <span style ="color : #585CA7">Hosting</span></a></h1>
-                            </div>
-                        </div>
-
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav">
-                                <li><a href="index.php">Home <i class="sr-only">(current)</i></a></li>
-                                <li><a href="about.php">About</a></li>
-                                <li><a href="services.php">Services</a></li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hosting<i class="caret"></i></a>
-                                    <ul class="dropdown-menu">
-                                    <? foreach ($catList as $value){
-                                            ?>
-                                            <li><a href="linuxhosting.php"><?php echo $value['prod_name'];?></a></li>
-                                            <!-- <li><a href="wordpresshosting.php">WordPress Hosting</a></li>
-                                            <li><a href="windowshosting.php">Windows Hosting</a></li>
-                                            <li><a href="cmshosting.php">CMS Hosting</a></li> -->
-                                        <?}?>
-                                    </ul>			
-                                </li>
-                                <li><a href="pricing.php">Pricing</a></li>
-                                <li><a href="blog.php">Blog</a></li>
-                                <li><a href="contact.php">Contact</a></li>
-                                <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-                                <li><a href="login.php">Login</a></li>
-                            </ul>
-                                    
-                        </div><!-- /.navbar-collapse -->
-                    </div><!-- /.container-fluid -->
-                </nav>
-            </div>
-        </div>
-        <!---header--->
-            <!---login--->
-            <div class="content">
+<?php require "header.php";?>
+<div class="content">
                 <div class="main-1">
                     <div class="container">
                         <div class="login-page">
@@ -263,7 +188,9 @@ if(isset($_POST['submitOtp'])){
                     </div>
                 </div>
             </div>
-        <!-- login -->
-        <?php require "footer.php";?>
-    </body>
+<!-- login -->
+<?php require ('footer.php'); ?>
+<script src="script.js"></script>
+      
+</body>
 </html>
