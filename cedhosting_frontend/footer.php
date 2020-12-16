@@ -22,18 +22,7 @@
 									</div>
 									<div class="clearfix"></div>
 								</div>
-								<!-- <div class="footer-top second">
-									<div class="col-md-4 foot-top">
-									<img src="images/f4.jpg" class="img-responsive" alt=""/>
-									</div>
-									<div class="col-md-4 foot-top">
-									<img src="images/f1.jpg" class="img-responsive" alt=""/>
-									</div>
-									<div class="col-md-4 foot-top">
-									<img src="images/f2.jpg" class="img-responsive" alt=""/>
-									</div>
-									<div class="clearfix"></div>
-								</div> -->
+								
 							</div>
 							<div class="col-md-3 footer-grid">
 								<h4>tag cloud</h4>
@@ -43,10 +32,7 @@
 								<li><a href="#">1170px</a></li>
 								<li><a href="#">Photoshop Freebie</a></li>
 								<li><a href="#">Designer</a></li>
-								<!-- <li><a href="#">Themes</a></li>
-								<li><a href="#">thislooksgreat chris</a></li>
-								<li><a href="#">Lovely Area</a></li>
-								<li><a href="#">You might use it...</a></li> -->
+								
 								</ul>
 							</div>
 							<div class="col-md-3 footer-grid">
@@ -71,16 +57,7 @@
 									</div>
 									<div class="clearfix"></div>
 								</div>
-								<!-- <div class="recent-grids">
-									<div class="col-md-4 recent-great">
-										<img src="images/f3.jpg" class="img-responsive" alt=""/>
-									</div>
-									<div class="col-md-8 recent-great1">
-										<a href="#">This is my lovely headline title for this footer section.</a>
-										<span>22 October 2014</span>
-									</div>
-									<div class="clearfix"></div>
-								</div> -->
+								
 							</div>
 							<div class="col-md-3 footer-grid">
 								<h4>get in touch</h4>
