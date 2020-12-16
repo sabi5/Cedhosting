@@ -6,6 +6,17 @@ require "header.php";
 require "Dbconnection.php";
 require "Product.php";
 
+if (!isset($_SESSION['user']['username'])) {     
+	echo '<script>alert("You are logged out")</script>';
+  ?>
+  <script>location.replace("../cedhosting_frontend/login.php")</script> 
+	<?php
+  }elseif(($_SESSION['user']['is_admin'] != 0)){
+	echo '<script>alert("You are unauthorised person")</script>';
+	?>
+  <script>location.replace("../cedhosting_backend/index.php")</script> 
+	<?php
+  }
 
 $Product = new Product();
 $Connection = new Dbconnection();

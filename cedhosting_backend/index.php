@@ -1,4 +1,19 @@
-<?php session_start();?>
+<?php session_start();
+
+if (!isset($_SESSION['user']['username'])) {     
+  echo '<script>alert("You are logged out")</script>';
+?>
+<script>location.replace("../cedhosting_frontend/login.php")</script> 
+  <?php
+}elseif(($_SESSION['user']['is_admin'] != 1)){
+  echo '<script>alert("You are unauthorised person")</script>';
+  ?>
+<script>location.replace("../cedhosting_frontend/index.php")</script> 
+  <?php
+}
+
+
+?>
 
 
 <!DOCTYPE html>
