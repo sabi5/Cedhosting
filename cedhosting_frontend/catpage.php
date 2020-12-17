@@ -1,9 +1,12 @@
 <?php 
 
+	session_start();
 	require "header.php";
 		
 	require "Dbconnection.php";
 	require "Product.php";
+
+	
 	 if(isset($_GET['id'])){
 
 		$id = $_GET['id'];
@@ -17,21 +20,13 @@
 
 	$hostingData = $Product->hostingData($id, $Connection->con);
 
-	$hostingproductData = $Product->hostingproductData($id, $Connection->con)
+	$hostingproductData = $Product->hostingproductData($id, $Connection->con);
+	
 
-
-	// $id = $_GET['id'];
+	
 ?>
 <title>Hosting page</title>
-<!--script-->
-<!-- <link rel="stylesheet" href="css/swipebox.css">
-<script src="js/jquery.swipebox.min.js"></script> 
-	<script type="text/javascript">
-		jQuery(function($) {
-			$(".swipebox").swipebox();
-		});
-	</script> -->
-<!--script-->
+
 </head>
 <body>
 <!---header--->
@@ -70,7 +65,7 @@
 								<li><a href="pricing.php">Pricing</a></li>
 								<li><a href="blog.php">Blog</a></li>
 								<li><a href="contact.php">Contact</a></li>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+								<li><a href="cart.php"><i class="fas fa-shopping-cart"></i></a></li>
 								<li><a href="logout.php">Logout</a></li>
 							</ul>
 									  
@@ -147,7 +142,60 @@
 													<!-- <li><strong>location </strong> : <img src="images/india.png"></li> -->
 													</ul>
 												</div>
-												<a href="#">buy now</a>
+
+												<!-- href="user.php?id='.$product["id"].'&action=addproduct"> -->
+												<a data-toggle="modal" data-target="#exampleModalSignUp" href="#">Buy Now</a>
+												
+											</div>
+
+											<!-- Modal -->
+											<div class="modal fade" id="exampleModalSignUp" tabindex="-1" role="dialog" 		aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+											<div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+												<div class="modal-content">
+												<div class="modal-body p-0">
+													<div class="card bg-secondary shadow border-0 mb-0">
+													<div class="card-header bg-white pb-5">
+														<div class="text-muted text-center mb-3">
+														<small>Price</small>
+														</div>
+													</div>
+													<div class="card-body px-lg-5 py-lg-5">
+													<form role="form" action = "" method = "post">
+														<div class="form-group mb-3">
+															<div class="input-group input-group-alternative">
+															<div class="input-group-prepend">
+																<span class="input-group-text"><i class="ni ni-email-83"></i></span>
+															</div>
+															
+															</div>
+														</div>
+														
+														<div class="form-group">
+															<div class="input-group input-group-alternative">
+																<div class="input-group-prepend">
+																	<span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+																	<label for="">Price
+																	<select class="form-control" name="price" id="select"></label>
+																		<option value="">please select..</option>
+																		<option value="<?php echo "$".$value['mon_price'];?> ">Monthly </option>
+																		<option value="<?php echo "$".$value['annual_price'];?> ">Annually</option>
+																	</select>
+																</div>
+															
+															<!-- <input class="form-control" placeholder="Available" type="text"> -->
+															</div>
+														</div>
+														<div class="text-center">
+															<input type="hidden" id="pid" value="<?php echo $value['prod_id'];?>">
+															
+															<a href="catpage.php" id="update" >Submit</a>
+														</div>
+														</form>
+													</div>
+													</div>
+												</div>
+												</div>
+											</div>
 											</div>
 											<?}}?>
 											
@@ -250,5 +298,29 @@
 				</div>
 				<?php require "footer.php";?>
 			
-</body>
+			<script>
+			$(document).ready(function(){
+				$('#update').click(function(e){
+					e.preventDefault();
+					var id =$('#pid').val();
+					alert(id);
+					var price= $('#select').val();
+					alert(price);
+					
+					$.ajax({
+					url : "intermediate.php",
+					type : "post",
+					data : {id : id,
+							price :price,
+							action : "addtocart"},
+					success: function(data){
+
+						alert(data);
+					}
+					});
+				});
+			});
+			
+			</script>
+	</body>
 </html>

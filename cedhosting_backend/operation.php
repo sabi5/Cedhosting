@@ -73,6 +73,13 @@ if (isset($_POST['action']) && $_POST['action'] == 'editProduct') {
     echo $data;
 }
 
+if (isset($_POST['action']) && $_POST['action'] == 'addtocart') {
+    $id = $_POST['id'];
+
+    $data = $Product->addCart($id,$price, $conn);
+    echo $data;
+}
+
 
 
 if (isset($_POST['action']) && $_POST['action'] == 'updateProduct') {

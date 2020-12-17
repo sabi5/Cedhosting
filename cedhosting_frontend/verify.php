@@ -63,7 +63,7 @@ if(isset($_POST['submitMobile'])){
 //   $data=$useractive->dublicateusername('asdsds@dnfj', $_POST['Mobileotp']);
 //   if($data){
     $MobileOtp = rand(1000,9999);
-    $_SESSION['moblieOtp']=$MobileOtp;
+    $_SESSION['mobileOtp']=$MobileOtp;
     $fields = array(
       "sender_id" => "FSTSMS",
       "message" => "This is Test message" . $MobileOtp,
@@ -124,7 +124,7 @@ if(isset($_POST['verifyEmail'])){
   }
 }
 if(isset($_POST['submitOtp'])){
-  if($_SESSION['moblieOtp']==$_POST['Mobileotp']){
+  if($_SESSION['mobileOtp']==$_POST['otp']){
     
     $data=$User->activeMobile($_GET['mobile'] , $Connection->con);
     // if($data){
@@ -218,6 +218,8 @@ if(isset($_POST['submitOtp'])){
                                 <div class="col-md-6 login-right">
                                     <h3>Verify Your Account Using Email</h3>
                                     <p>You can verify yourself through email</p>
+
+                                    <!-- send email otp -->
                                     <form action="" method="post">
                                       <div>
                                         <span>Email Address<label>*</label></span>
@@ -225,9 +227,11 @@ if(isset($_POST['submitOtp'])){
                                       </div>
                                       <input type="submit" name ="submitEmail" value="Verify through Email">
                                       <p class="text-success"><?php echo $msg; ?></p>
-                                    <span id="alertsuccess"><?php echo (isset($errores))?$errores:''; ?></span>
-                                    <span id="alerterror"><?php echo (isset($errore))?$errore:''; ?></span>
+                                      <span id="alertsuccess"><?php echo (isset($errores))?$errores:''; ?></span>
+                                      <span id="alerterror"><?php echo (isset($errore))?$errore:''; ?></span>
                                     </form>
+
+                                    <!-- verify email otp -->
                                     <form action="" method="post">
                                       <div>
                                         <span>Enter OTP<label>*</label></span>
@@ -240,6 +244,8 @@ if(isset($_POST['submitOtp'])){
                                 <div class="col-md-6 login-right">
                                     <h3>Verify Your Account Using Mobile</h3>
                                     <p>You can verify yourself through mobile</p>
+
+                                    <!-- send mobile otp -->
                                     <form action="" method="post">
                                       <div>
                                         <span>Mobile<label>*</label></span>
@@ -249,6 +255,8 @@ if(isset($_POST['submitOtp'])){
                                       <span id="alertsuccess"><?php echo (isset($errorem))?$errorem:''; ?></span>
                                       <span id="success"><?php echo (isset($errorms))?$errorms:''; ?></span>
                                     </form>
+
+                                    <!-- verify mobile otp -->
                                     <form action="" method="post">
                                       <div>
                                         <span>Mobile<label>*</label></span>

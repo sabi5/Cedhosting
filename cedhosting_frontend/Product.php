@@ -392,5 +392,41 @@ class Product {
         }
     }
     
+
+    function addCart($id, $price, $con)
+    {
+
+        if(!isset($_SESSION['cartArray'])){
+            $_SESSION['cartArray'] = array();
+        }
+        $_SESSION['cartArray'] = array();
+        $row =array();
+        $ret = "";
+
+        $sql = "SELECT `tbl_product`.*,`tbl_product_description`.* FROM tbl_product JOIN tbl_product_description ON `tbl_product`.`id` = `tbl_product_description`.`prod_id` WHERE `tbl_product`.`id` = '$id' ";
+        $result = $con->query($sql);
+        while (($data = $result->fetch_assoc())) {
+           
+
+            $descDescript = json_decode($data['description']);
+            $webspace = $descDescript->{'webspace'};
+            $bandwidth = $descDescript->{'bandwidth'};
+            $freedomain = $descDescript->{'freedomain'};
+            $language = $descDescript->{'language'};
+            $mailbox = $descDescript->{'mailbox'};
+
+            $row[] = array("prod_id"=>$data['prod_id'], "prod_parent_id"=>$data['prod_parent_id'], "prod_name"=>$data['prod_name'], "prod_launch_date"=>$data['prod_launch_date'],"webspace"=>$webspace, "bandwidth"=>$bandwidth, "freedomain"=>$freedomain, "language"=>$language, "mailbox"=>$mailbox, "price"=>$price, "sku"=>$data['sku'], "id"=>$data['id']);
+            array_push($_SESSION['cartArray'], $row);
+            if($_SESSION['cartArray'] != ""){
+                $ret = "product added successfully";
+            }
+            else {
+                $ret = "product not added";
+            }
+        }
+        return $ret;
+        
+
+    }
 }
 ?>

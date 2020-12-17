@@ -86,7 +86,7 @@ $catList = $Product->categoryList($Connection->con);
 								<li><a href="pricing.php">Pricing</a></li>
 								<li><a href="blog.php">Blog</a></li>
 								<li><a href="contact.php">Contact</a></li>
-								<li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+								<li><a href="cart.php"><i class="fas fa-shopping-cart"></i></a></li>
 								<li><a href="logout.php">Logout</a></li>
 							</ul>
 									  

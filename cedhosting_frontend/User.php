@@ -40,7 +40,7 @@ class User {
                
                 $db_pass = $username_pass['password'];
                 $_SESSION['user'] = array('username'=>$username_pass['name'],
-                            'id'=>$username_pass['id'], 'is_admin'=>$username_pass['is_admin'], 'active'=>$username_pass['active'], 'email'=>$username_pass['email']);   
+                            'id'=>$username_pass['id'], 'is_admin'=>$username_pass['is_admin'], 'active'=>$username_pass['active'], 'email'=>$username_pass['email'], 'phone_approved'=>$username_pass['phone_approved'], 'email_approved'=>$username_pass['email_approved']);   
                             // print_r($_SESSION['user']);
                 
                 // ************* end cookies
@@ -49,7 +49,7 @@ class User {
                     //    echo "<script>alert('Admin login successful');</script>";
                         
                         echo  "<script>location.replace('../cedhosting_backend/index.php');</script>";
-                    } elseif($_SESSION['user']['active'] == 1) {
+                    } elseif($_SESSION['user']['active'] == 1 && ($_SESSION['user']['email_approved'] ==1 || $_SESSION['user']['phone_approved'] ==1) ) {
                         // echo "<script>alert('Inserted Successfully');</script>";
                         echo "<script>location.replace('index.php');</script>";
                         
