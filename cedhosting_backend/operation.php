@@ -44,6 +44,10 @@ if($_POST['action'] == "delete_product"){
     $result=$Product->deleteProduct($id, $Connection->con);
 }
 
+
+
+
+// ************ edit product
 if($_POST['action'] == "edit"){
     $id = $_POST['id'];
     $productname = $_POST['productname'];

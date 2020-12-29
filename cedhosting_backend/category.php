@@ -603,14 +603,6 @@
                       <input class="form-control" placeholder="Name" id ="name" type="text">
                     </div>
                   </div>
-                  <!-- <div class="form-group">
-                    <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                      </div>
-                      <input class="form-control" placeholder="Link" id ="link" type="text">
-                    </div>
-                  </div> -->
                   <div class="form-group">
                     <div class="input-group input-group-alternative">
                       <div class="input-group-prepend">
@@ -621,12 +613,11 @@
                         <option value="1">Available</option>
                         <option value="0">Unavailable</option>
                       </select>
-                      <!-- <input class="form-control" placeholder="Available" type="text"> -->
                     </div>
                   </div>
                   <div class="text-center">
                   <input type="hidden" id="pid">
-                    <!-- <input type="button" value="Update" id ="update" class="btn btn-primary my-4"> -->
+                    
                     <a href="category.php" id="update" >Update</a>
                   </div>
                 </form>
@@ -641,8 +632,6 @@
     <?php require "footer.php";?>
     <script>
     $(document).ready(function(){
-
-    
       $(document).on('click', '.delete_data', function(){
         var delete_id = $(this).attr('id');
         var $ele = $(this).parent().parent();

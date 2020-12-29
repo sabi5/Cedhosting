@@ -12,28 +12,27 @@ $Product = new Product();
 if (isset($_POST['action']) && $_POST['action'] == 'addtocart') {
     $id = $_POST['id'];
     $price =$_POST['price'];
-
-    if($_SESSION['cartArray'] == "") {
-        $data = $Product->addCart($id, $price, $conn);
-        echo $data;
-    }else{
-        foreach($_SESSION['cartArray'] as $key=>$value) {
-
-            foreach($value as $k=>$v){
-
-                if($v['prod_id'] == $id) {
-                    echo "product already exists";
-                }else{
-                    $data = $Product->addCart($id, $price, $conn);
-                     echo $data;
-                }
-            }
-        }
-
-    }
+    $data = $Product->addCart($id, $price, $conn);
+   
 }
    
+// ************ cart item deleted
+if($_POST['action'] == "delete_cart"){
 
+    $id = $_POST['delete_id'];
+    // $result=$Product->deleteCart($id, $Connection->con);
+  
+    foreach ( $_SESSION['cartArray'] as $key=>$value) {
+        foreach($value as $k=>$v)
+        {
+            if ($id == $v['prod_id']) {
+                unset($_SESSION['cartArray'][$key][$k]);
+                echo "YES";
+            }
+        }
+    }
+    
+}
 
 
 

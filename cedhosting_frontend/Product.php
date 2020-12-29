@@ -174,34 +174,7 @@ class Product {
         $sql = "SELECT `tbl_product`.*,`tbl_product_description`.* FROM `tbl_product` JOIN `tbl_product_description` ON `tbl_product`.`id` = `tbl_product_description`.`prod_id`";
      
         $query = $con->query($sql);
-        // $row = $query->fetch_assoc();
-
-        // $prodparent = $row['prod_parent_id'];
-        // echo $prodparent;
-
-
-
-        // $sql = "SELECT * FROM `tbl_product` WHERE `id` = '$prodparent'";
-        // print_r($sql);
-        // $query = $con->query($sql);
-        // $row = $query->fetch_assoc();
-        // print_r($row);
-        // $prod_name = $row['prod_name'];
-        // return $prod_name;
-        // print_r($query);
        
-        
-        // if ($query->num_rows > 0) {
-
-        //     while($row = $query->fetch_assoc()){
-        //         $data[] = $row;
-               
-        //     }
-        //     return $data;
-        // }
-
-
-
         if ($query->num_rows > 0) {
           
             while($row = $query->fetch_assoc()){
@@ -395,38 +368,76 @@ class Product {
 
     function addCart($id, $price, $con)
     {
-
         if(!isset($_SESSION['cartArray'])){
             $_SESSION['cartArray'] = array();
-        }
-        $_SESSION['cartArray'] = array();
-        $row =array();
-        $ret = "";
+       }
+            // $_SESSION['cartArray'] = array();
+            $row =array();
+            $ret = "";
+            $r = false;
 
-        $sql = "SELECT `tbl_product`.*,`tbl_product_description`.* FROM tbl_product JOIN tbl_product_description ON `tbl_product`.`id` = `tbl_product_description`.`prod_id` WHERE `tbl_product`.`id` = '$id' ";
-        $result = $con->query($sql);
-        while (($data = $result->fetch_assoc())) {
-           
+            $sql = "SELECT `tbl_product`.*,`tbl_product_description`.* FROM tbl_product JOIN tbl_product_description ON `tbl_product`.`id` = `tbl_product_description`.`prod_id` WHERE `tbl_product`.`id` = '$id' ";
+            $result = $con->query($sql);
+            while (($data = $result->fetch_assoc())) {
+            
 
-            $descDescript = json_decode($data['description']);
-            $webspace = $descDescript->{'webspace'};
-            $bandwidth = $descDescript->{'bandwidth'};
-            $freedomain = $descDescript->{'freedomain'};
-            $language = $descDescript->{'language'};
-            $mailbox = $descDescript->{'mailbox'};
+                $descDescript = json_decode($data['description']);
+                $webspace = $descDescript->{'webspace'};
+                $bandwidth = $descDescript->{'bandwidth'};
+                $freedomain = $descDescript->{'freedomain'};
+                $language = $descDescript->{'language'};
+                $mailbox = $descDescript->{'mailbox'};
 
-            $row[] = array("prod_id"=>$data['prod_id'], "prod_parent_id"=>$data['prod_parent_id'], "prod_name"=>$data['prod_name'], "prod_launch_date"=>$data['prod_launch_date'],"webspace"=>$webspace, "bandwidth"=>$bandwidth, "freedomain"=>$freedomain, "language"=>$language, "mailbox"=>$mailbox, "price"=>$price, "sku"=>$data['sku'], "id"=>$data['id']);
-            array_push($_SESSION['cartArray'], $row);
-            if($_SESSION['cartArray'] != ""){
-                $ret = "product added successfully";
+                $row[] = array("prod_id"=>$data['prod_id'], "prod_parent_id"=>$data['prod_parent_id'], "prod_name"=>$data['prod_name'], "prod_launch_date"=>$data['prod_launch_date'],"webspace"=>$webspace, "bandwidth"=>$bandwidth, "freedomain"=>$freedomain, "language"=>$language, "mailbox"=>$mailbox, "price"=>$price, "sku"=>$data['sku'], "id"=>$data['id']);
+                    
+            }
+
+            foreach($_SESSION['cartArray'] as $key=>$value) {
+
+                foreach($value as $k=>$v){
+    
+                    if($v['prod_id'] == $id) {
+                        $r = true;
+                        break;
+                    }else{
+                      $r = false;
+                       
+                    //echo "product added successfully";
+                    }
+                }
+            }
+            if($r == false) {
+                array_push($_SESSION['cartArray'], $row);
+                print_r($_SESSION['cartArray']);
+                echo "product added successfully";
             }
             else {
-                $ret = "product not added";
+                print_r($_SESSION['cartArray']);
+                echo "product already exists";
             }
-        }
-        return $ret;
-        
+           
+            // return $ret;
 
     }
+
+    // foreach ( $_SESSION['cartArray'] as $key=>$value) {
+    //     if ($id == $_SESSION['cartArray'][$key]['id']) {
+    //         unset($_SESSION['cartArray'][$key]);
+            
+    //     }
+    // }
+
+     // item deleted from cart
+    //  function deleteCart($id, $con){
+    //     foreach ( $_SESSION['cartArray'] as $key=>$value) {
+    //         foreach($value as $k=>$v)
+    //         {
+    //             if ($id == $v['prod_id']) {
+    //                 unset($_SESSION['cartArray'][$key][$k]);
+    //                 echo "YES";
+    //             }
+    //         }
+    //     }
+    // }
 }
 ?>
